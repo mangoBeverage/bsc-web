@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间应该是对应接口的包名+接口名 -->
+<mapper namespace="com.bsc.modules.section.dao.SectionDao">
+
+    <insert id="insert">
+        INSERT INTO
+        section(section,num)
+        VALUES(#{section},#{num});
+    </insert>
+    <update id="update">
+        UPDATE section
+        <set>
+            <if test="section!= null and section != ''">
+                section= #{section},
+            </if>
+            <if test="num != null and num != ''">
+                num = #{num},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM section WHERE id=#{id}
+    </delete>
+
+    <select id="get" resultType="com.bsc.modules.section.entity.Section">
+        SELECT * FROM section WHERE id = #{id}
+    </select>
+
+    <select id="getT" resultType="com.bsc.modules.section.entity.Section">
+    select * from section
+    <where>
+    <if test="section != null and section != ''">
+        and section = #{section}
+    </if>
+    <if test="num != null and num != ''">
+        and num = #{num}
+    </if>
+    </where>
+        order by id desc
+    </select>
+
+    <select id="findList" resultType="com.bsc.modules.section.entity.Section">
+        SELECT * FROM section
+        <where>
+            <if test="section != null and section != ''">
+                AND section LIKE concat('%', #{section}, '%')
+            </if>
+            <if test="num != null and num != ''">
+                AND num LIKE concat('%', #{num}, '%')
+            </if>
+        </where>
+        ORDER BY id DESC
+    </select>
+    <select id="findAllList" resultType="com.bsc.modules.section.entity.Section">
+        SELECT * FROM section ORDER BY id DESC
+    </select>
+
+</mapper>
